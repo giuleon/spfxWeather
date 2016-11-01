@@ -12,19 +12,22 @@ export interface IWeatherProps extends IWeatherWebPartProps {
 export interface IWeatherState {
   status: string;
   items: IListItem[];
+  temp: string;
 }
 
 export interface IListItem {
-  main: string;
+  icon: string;
   description: string;
+  main: string;
   weather: [
     {
       id: string,
       main: string,
       description: string,
-      icon: string
+      icon: string,
+      temp: string
     }
-  ]
+  ],
 }
 
 export default class Weather extends React.Component<IWeatherProps, IWeatherState> {
@@ -33,20 +36,26 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
 
     this.state = {
       status: this.listNotConfigured(this.props) ? 'Please configure list in Web Part properties' : 'Ready',
-      items: []
+      items: [],
+      temp: ""
     };
   }
   public componentWillReceiveProps(nextProps: IWeatherProps): void {
     //this.listItemEntityTypeName = undefined;
     this.setState({
       status: this.listNotConfigured(nextProps) ? 'Please configure list in Web Part properties' : 'Ready',
-      items: []
+      items: [],
+      temp: ""
     });
   }
   public render(): JSX.Element {
     const items: JSX.Element[] = this.state.items.map((item: IListItem, i: number): JSX.Element => {
+      item.icon = "http://openweathermap.org/img/w/" + item.icon + ".png";
       return (
-        <li>{item.main} ({item.description}) </li>
+        <div>
+          <img src={item.icon}/>
+          <span className='ms-fontSize-su ms-fontColor-white'>{this.state.temp}° - {item.main} - {item.description}</span>
+        </div>
       );
     });
 
@@ -54,7 +63,7 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
       <div className={styles.weather}>
         <div className={styles.container}>
           <div className={css('ms-Grid-row ms-bgColor-themeDark ms-fontColor-white', styles.row)}>
-            <div className='ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1'>
+            <div className='ms-Grid-col ms-u-lg12 ms-u-xl12'>
               <span className='ms-font-xl ms-fontColor-white'>
                 Welcome to SharePoint!
               </span>
@@ -74,11 +83,8 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
                 <span className='ms-Button-label'>Learn more</span>
               </a>
               <div className={css('ms-Grid-row ms-bgColor-themeDark ms-fontColor-white', styles.row) }>
-                <div className='ms-Grid-col ms-u-lg10 ms-u-xl8 ms-u-xlPush2 ms-u-lgPush1'>
-                  {this.state.status}
-                  <ul>
-                    {items}
-                  </ul>
+                <div className='ms-Grid-col ms-u-lg12 ms-u-xl12'>
+                  {items}
                 </div>
               </div>
             </div>
@@ -93,7 +99,7 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
     this.getWeatherCondition();
   }
   private getWeatherCondition(): void {
-    this.props.basicHttpClient.get(`http://api.openweathermap.org/data/2.5/weather?q='${this.props.location}'&APPID=2251fe39598c8fa472ec4378cf1ef193`, {
+    this.props.basicHttpClient.get(`http://api.openweathermap.org/data/2.5/weather?q='${this.props.location}'&units=metric&APPID=2251fe39598c8fa472ec4378cf1ef193`, {
       headers: {
         'Accept': 'application/json;odata=nometadata'
       }
@@ -101,16 +107,17 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
       .then((response: Response): Promise<{ weather: IListItem[] }> => {
         return response.json();
       })
-      .then((response: { weather: IListItem[] }): void => {
-        //this.props.description = response.weather[0].description;
+      .then((response: { weather: IListItem[], main: IWeatherState }): void => {
         this.setState({
-          status: `Successfully loaded ${response.weather.length} items`,
-          items: response.weather
+          status: `Successfully loaded ${response} items`,
+          items: response.weather,
+          temp: response.main.temp
         });
       }, (error: any): void => {
         this.setState({
           status: 'Loading all items failed with error: ' + error,
-          items: []
+          items: [],
+          temp: ""
         });
       });
   }
