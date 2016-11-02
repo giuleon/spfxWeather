@@ -41,22 +41,35 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
     };
   }
   public componentWillReceiveProps(nextProps: IWeatherProps): void {
+    console.log("componentWillReceiveProps!!!!!!!");
+    this.getWeatherCondition(nextProps.location);
     //this.listItemEntityTypeName = undefined;
-    this.setState({
-      status: this.listNotConfigured(nextProps) ? 'Please configure list in Web Part properties' : 'Ready',
-      items: [],
-      temp: ""
-    });
+    // this.setState({
+    //   status: this.listNotConfigured(nextProps) ? 'Please configure list in Web Part properties' : 'Ready',
+    //   items: [],
+    //   temp: ""
+    // });
   }
   public render(): JSX.Element {
     const items: JSX.Element[] = this.state.items.map((item: IListItem, i: number): JSX.Element => {
-      item.icon = "http://openweathermap.org/img/w/" + item.icon + ".png";
-      return (
-        <div>
-          <img src={item.icon}/>
-          <span className='ms-fontSize-su ms-fontColor-white'>{this.state.temp}° - {item.main} - {item.description}</span>
-        </div>
-      );
+      if(item.icon.indexOf("http://") === 0) {
+        item.icon = item.icon;
+        return (
+          <div>
+            <img src={item.icon}/>
+            <span className='ms-fontSize-su ms-fontColor-white'>{this.state.temp}° - {item.main} - {item.description}</span>
+          </div>
+        );
+      }
+      else {
+        item.icon = "http://openweathermap.org/img/w/" + item.icon + ".png";
+        return (
+          <div>
+            <img src={item.icon}/>
+            <span className='ms-fontSize-su ms-fontColor-white'>{this.state.temp}° - {item.main} - {item.description}</span>
+          </div>
+        );
+      }
     });
 
     return (
@@ -96,10 +109,11 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
 
   public componentDidMount() {
     console.log("componentDidMount!!");
-    this.getWeatherCondition();
+    this.getWeatherCondition(this.props.location);
   }
-  private getWeatherCondition(): void {
-    this.props.basicHttpClient.get(`http://api.openweathermap.org/data/2.5/weather?q='${this.props.location}'&units=metric&APPID=2251fe39598c8fa472ec4378cf1ef193`, {
+  private getWeatherCondition(location: string): void {
+    var loc = location;
+    this.props.basicHttpClient.get(`http://api.openweathermap.org/data/2.5/weather?q='${loc}'&units=metric&APPID=2251fe39598c8fa472ec4378cf1ef193`, {
       headers: {
         'Accept': 'application/json;odata=nometadata'
       }

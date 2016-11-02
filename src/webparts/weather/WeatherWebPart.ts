@@ -47,4 +47,8 @@ export default class WeatherWebPart extends BaseClientSideWebPart<IWeatherWebPar
       ]
     };
   }
+
+  protected get disableReactivePropertyChanges(): boolean {
+    return true;
+  }
 }
