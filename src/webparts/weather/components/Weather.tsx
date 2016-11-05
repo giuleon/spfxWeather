@@ -55,18 +55,18 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
       if(item.icon.indexOf("http://") === 0) {
         item.icon = item.icon;
         return (
-          <div>
+          <div className='ms-bgColor-neutralSecondary'>
             <img src={item.icon}/>
-            <span className='ms-fontSize-su ms-fontColor-white'>{this.state.temp}° - {item.main} - {item.description}</span>
+            <span className='ms-fontSize-su ms-fontColor-neutralLight'>{this.state.temp}° - {item.main} - {item.description}</span>
           </div>
         );
       }
       else {
         item.icon = "http://openweathermap.org/img/w/" + item.icon + ".png";
         return (
-          <div>
+          <div className='ms-bgColor-neutralSecondary'>
             <img src={item.icon}/>
-            <span className='ms-fontSize-su ms-fontColor-white'>{this.state.temp}° - {item.main} - {item.description}</span>
+            <span className='ms-fontSize-su ms-fontColor-neutralLight'>{this.state.temp}° - {item.main} - {item.description}</span>
           </div>
         );
       }
@@ -75,31 +75,9 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
     return (
       <div className={styles.weather}>
         <div className={styles.container}>
-          <div className={css('ms-Grid-row ms-bgColor-themeDark ms-fontColor-white', styles.row) }>
+          <div className={css(styles.weatherContainer)} style={{backgroundImage: `url('http://loremflickr.com/700/300/${this.props.location}')`}}>
             <div className='ms-Grid-col ms-u-lg12 ms-u-xl12'>
-              <span className='ms-font-xl ms-fontColor-white'>
-                Welcome to SharePoint!
-              </span>
-              <p className='ms-font-l ms-fontColor-white'>
-                Customize SharePoint experiences using Web Parts.
-              </p>
-              <p className='ms-font-l ms-fontColor-white'>
-                {this.props.description}
-              </p>
-              <p className='ms-font-l ms-fontColor-white'>
-                {this.props.location}
-              </p>
-              <a
-                className={css('ms-Button', styles.button)}
-                href='https://github.com/SharePoint/sp-dev-docs/wiki'
-              >
-                <span className='ms-Button-label'>Learn more</span>
-              </a>
-              <div className={css(styles.weatherContainer)} style={{backgroundImage: `url('http://loremflickr.com/500/200/${this.props.location}')`}}>
-                <div className='ms-Grid-col ms-u-lg12 ms-u-xl12'>
-                  {items}
-                </div>
-              </div>
+              {items}
             </div>
           </div>
         </div>
@@ -113,7 +91,7 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
   }
   private getWeatherCondition(location: string): void {
     var loc = location;
-    this.props.basicHttpClient.get(`http://api.openweathermap.org/data/2.5/weather?q='${loc}'&units=metric&APPID=2251fe39598c8fa472ec4378cf1ef193`, {
+    this.props.basicHttpClient.get(`http://api.openweathermap.org/data/2.5/weather?q='${loc}'&type=accurate&units=metric&type=accurate&APPID=2251fe39598c8fa472ec4378cf1ef193`, {
       headers: {
         'Accept': 'application/json;odata=nometadata'
       }
