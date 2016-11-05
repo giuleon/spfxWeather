@@ -21,6 +21,7 @@ export default class WeatherWebPart extends BaseClientSideWebPart<IWeatherWebPar
       description: this.properties.description,
       location: this.properties.location
     });
+
     ReactDom.render(element, this.domElement);
   }
   protected get propertyPaneSettings(): IPropertyPaneSettings {

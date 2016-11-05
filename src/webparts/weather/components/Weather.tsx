@@ -75,7 +75,7 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
     return (
       <div className={styles.weather}>
         <div className={styles.container}>
-          <div className={css('ms-Grid-row ms-bgColor-themeDark ms-fontColor-white', styles.row)}>
+          <div className={css('ms-Grid-row ms-bgColor-themeDark ms-fontColor-white', styles.row) }>
             <div className='ms-Grid-col ms-u-lg12 ms-u-xl12'>
               <span className='ms-font-xl ms-fontColor-white'>
                 Welcome to SharePoint!
@@ -95,7 +95,7 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
               >
                 <span className='ms-Button-label'>Learn more</span>
               </a>
-              <div className={css('ms-Grid-row ms-bgColor-themeDark ms-fontColor-white', styles.row) }>
+              <div className={css(styles.weatherContainer)} style={{backgroundImage: `url('http://loremflickr.com/500/200/${this.props.location}')`}}>
                 <div className='ms-Grid-col ms-u-lg12 ms-u-xl12'>
                   {items}
                 </div>
