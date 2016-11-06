@@ -41,14 +41,7 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
     };
   }
   public componentWillReceiveProps(nextProps: IWeatherProps): void {
-    console.log("componentWillReceiveProps!!!!!!!");
     this.getWeatherCondition(nextProps.location);
-    //this.listItemEntityTypeName = undefined;
-    // this.setState({
-    //   status: this.listNotConfigured(nextProps) ? 'Please configure list in Web Part properties' : 'Ready',
-    //   items: [],
-    //   temp: ""
-    // });
   }
   public render(): JSX.Element {
     const items: JSX.Element[] = this.state.items.map((item: IListItem, i: number): JSX.Element => {
@@ -56,8 +49,8 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
         item.icon = item.icon;
         return (
           <div className='ms-bgColor-neutralSecondary'>
-            <img src={item.icon}/>
-            <span className='ms-fontSize-su ms-fontColor-neutralLight'>{this.state.temp}° - {item.main} - {item.description}</span>
+            <img className={css(styles.topWeather)} src={item.icon}/>
+            <span className='ms-font-xxl ms-fontColor-neutralLight'>{this.state.temp}°-{item.main}-{item.description}</span>
           </div>
         );
       }
@@ -65,8 +58,8 @@ export default class Weather extends React.Component<IWeatherProps, IWeatherStat
         item.icon = "http://openweathermap.org/img/w/" + item.icon + ".png";
         return (
           <div className='ms-bgColor-neutralSecondary'>
-            <img src={item.icon}/>
-            <span className='ms-fontSize-su ms-fontColor-neutralLight'>{this.state.temp}° - {item.main} - {item.description}</span>
+            <img className={css(styles.topWeather)} src={item.icon}/>
+            <span className='ms-font-xxl ms-fontColor-neutralLight'>{this.state.temp}°-{item.main}-{item.description}</span>
           </div>
         );
       }

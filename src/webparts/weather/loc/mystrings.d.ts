@@ -1,7 +1,6 @@
 declare interface IWeatherStrings {
   PropertyPaneDescription: string;
   BasicGroupName: string;
-  DescriptionFieldLabel: string;
   LocationFieldLabel: string;
 }
 
