@@ -18,7 +18,6 @@ export default class WeatherWebPart extends BaseClientSideWebPart<IWeatherWebPar
   public render(): void {
     const element: React.ReactElement<IWeatherProps> = React.createElement(Weather, {
       basicHttpClient: this.context.basicHttpClient,
-      description: this.properties.description,
       location: this.properties.location
     });
 
@@ -35,9 +34,6 @@ export default class WeatherWebPart extends BaseClientSideWebPart<IWeatherWebPar
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                }),
                 PropertyPaneTextField('location', {
                   label: strings.LocationFieldLabel
                 })
