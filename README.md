@@ -2,6 +2,8 @@
 
 This is a sample of use case about SharePoint Framework, for this solution I used React Framework to create a weather web part.
 
+![alt text](http://www.delucagiuliano.com/SiteAssets/ReactWeatherWebPart.gif "React weather web part Giuliano De Luca")
+
 ## Api
 
 ```bash
