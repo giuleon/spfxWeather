@@ -15,3 +15,13 @@ http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=<Insert here yo
 ```
 
 You are welcome for any kind of contribution, than feel free to create a dev branch.
+
+### Building the code
+
+```bash
+git clone the repo
+npm i
+npm i -g gulp
+gulp serve
+```
+[Here the article on my blog](http://www.delucagiuliano.com/sharepoint-framework-react-web-part-weather/)
